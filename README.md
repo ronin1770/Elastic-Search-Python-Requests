@@ -1,7 +1,7 @@
 # Elastic-Search-Python-Requests
 Simple code that demostrates the working of elastic search using Python 3.5+ and requests package
 
-This is a simple project to illustrate how to access Elastic Search with Python (using requests package). 
+This is a simple project to illustrate how to access Elastic Search (using their REST API) with Python (using requests package). Main motivation is the freedom from using any prebuilt python package (due to the deprecation). 
 
 Credentials are stored in settings.py
 
