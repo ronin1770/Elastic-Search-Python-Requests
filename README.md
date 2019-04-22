@@ -3,6 +3,11 @@ Simple code that demostrates the working of elastic search using Python 3.5+ and
 
 This is a simple project to illustrate how to access Elastic Search (using their REST API) with Python (using requests package). Main motivation is the freedom from using any prebuilt python package (due to the deprecation). 
 
+ElasticSearch https://cloud.elastic.co/	offers a free 14-day trial. I used their service for demo purposes. Alternatively, you can either:
+
+1. Setup elastic search on AWS
+2. Get the managed service from AWS
+
 Credentials are stored in settings.py
 
      config = {
