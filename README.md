@@ -46,4 +46,32 @@ list_indices => This method will list all indices on the cluser
 
 push_data    => This method will be used for pushing data to the cluser
 
+	def push_data(self, index, json_string):
+			#pushes data for the given index
+			retval = ""
+
+			url = config['url'] + "/" + index + "/_doc" 
+			response = requests.post(url, auth = HTTPBasicAuth(config['username'], config['password']), json = json_string )
+
+			if( response.status_code == 200 or response.status_code == 201 ):
+				retval = response.text
+			else:
+				print( "Connection failed....")
+				print( str(response.status_code) + "\n" + response.reason )
+			return retval
+
 search_data  => This method will search elastic search cluster for a given term
+
+get_data_item 	=> This method retrieves a particular data item using its _id
+
+	def get_data_item(self,index, id):
+			retval = ""
+
+			url = config['url'] + "/" + index + "/_doc/" + id
+			response = requests.get( url, auth = HTTPBasicAuth(config['username'], config['password']))
+			if( response.status_code == 200):
+				retval = response.text
+			else:
+				print( "Connection failed....")
+				print( str(response.status_code) + "\n" + response.reason )
+			return retval
