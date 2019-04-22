@@ -70,21 +70,30 @@ class elastic_search_rest_client:
 		
 	def search_data(self, index, search_term, return_size):
 		#retrieves data for the particular search term
-		print("");
+		url = config['url'] + "/" + index + "/_doc/_search/?pretty=true" 
+		query = {"query" : { "match" : { search_term : return_size }}}
+		response = requests.get( url, auth = HTTPBasicAuth(config['username'], config['password']), data=json.dumps(query), headers = {'Content-type': 'application/json', 'Accept': 'text/plain'})
+		
+		if( response.status_code == 200):
+			retval = response.text 
+		else:
+			print( "Connection failed....")
+			print( str(response.status_code) + "\n" + response.reason )
+		return retval
 		
 	def search_range(self, index, search_term, lessthan, greaterthan):
 		#Searches index for a particular data item for a specified range
 		url = config['url'] + "/" + index + "/_doc/_search/?pretty=true" 
-		# query = {"query" : { "range" : { "pageviews" : { "gte" : "1200", "lte" : "1250" } } } }
-		query = {"query" : { "match" : { "pageviews" : "1927" }}}
-		response = requests.get( url, auth = HTTPBasicAuth(config['username'], config['password']), data=json.dumps(query))
+		query = {"query" : { "range" : { search_term : { "gte" : greaterthan, "lte" : lessthan } } } }
+		# query = {"query" : { "match" : { "pageviews" : "1927" }}}
+		response = requests.get( url, auth = HTTPBasicAuth(config['username'], config['password']), data=json.dumps(query), headers = {'Content-type': 'application/json', 'Accept': 'text/plain'})
 		
 		if( response.status_code == 200):
-			print( response.text )
+			retval = response.text 
 		else:
 			print( "Connection failed....")
 			print( str(response.status_code) + "\n" + response.reason )
-		# return retval
+		return retval
 		
 		
 	def import_sample_data(self, index):
@@ -121,5 +130,7 @@ if __name__ == "__main__":
 	
 	# esrc.import_sample_data(index)
 	# print("Data imported")
-	esrc.search_range(index, search_term, 1300, 1200)
+	# print( esrc.search_range(index, search_term, 1300, 1200) )
+	
+	print( esrc.search_data(index, search_term, 1655) )
 	
