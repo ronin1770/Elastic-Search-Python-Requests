@@ -62,6 +62,35 @@ push_data    => This method will be used for pushing data to the cluser
 
 search_data  => This method will search elastic search cluster for a given term
 
+	def search_data(self, index, search_term, return_size):
+		#retrieves data for the particular search term
+		url = config['url'] + "/" + index + "/_doc/_search/?pretty=true" 
+		query = {"query" : { "match" : { search_term : return_size }}}
+		response = requests.get( url, auth = HTTPBasicAuth(config['username'], config['password']), data=json.dumps(query), headers = {'Content-type': 'application/json', 'Accept': 'text/plain'})
+		
+		if( response.status_code == 200):
+			retval = response.text 
+		else:
+			print( "Connection failed....")
+			print( str(response.status_code) + "\n" + response.reason )
+		return retval
+
+search_range 	=> This method will search for range of values using the parameters
+
+	def search_range(self, index, search_term, lessthan, greaterthan):
+			#Searches index for a particular data item for a specified range
+			url = config['url'] + "/" + index + "/_doc/_search/?pretty=true" 
+			query = {"query" : { "range" : { search_term : { "gte" : greaterthan, "lte" : lessthan } } } }
+			# query = {"query" : { "match" : { "pageviews" : "1927" }}}
+			response = requests.get( url, auth = HTTPBasicAuth(config['username'], config['password']), data=json.dumps(query), headers = {'Content-type': 'application/json', 'Accept': 'text/plain'})
+
+			if( response.status_code == 200):
+				retval = response.text 
+			else:
+				print( "Connection failed....")
+				print( str(response.status_code) + "\n" + response.reason )
+			return retval
+
 get_data_item 	=> This method retrieves a particular data item using its _id
 
 	def get_data_item(self,index, id):
