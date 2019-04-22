@@ -15,10 +15,6 @@ class elastic_search_rest_client:
 			print( "Connection failed....")
 			print( str(response.status_code) + "\n" + response.reason )
 	
-	def create_doc(self, document_name ):
-		#Creates the document on the Elasic Search
-		print("");
-		
 	def create_index(self, index):
 		#Create the index for the particular document
 		url = config['url'] + "/" + index + "?pretty"
@@ -119,18 +115,45 @@ class elastic_search_rest_client:
 					
 		
 if __name__ == "__main__":
+
+	#Create the instance of our client
 	esrc =  elastic_search_rest_client()
+	
+	#Name of our index
 	index = "apache_logs"
+	
+	#Name of the field
 	search_term = "pageviews"
 	
-	#json_string = { "ip_address" : "127.0.0.1", "server" : "yayvo", "agent" : "Firefox" }
-	#esrc.push_data(index, json_string)
+	#Item we wanted to search
+	pageviews    = "1927" 
 	
-	#print ( esrc.get_data_item(index,"kREpRGoBbLLKDSaFGpiw") )
+	#Lower bound for search
+	lessthan     = "1300" 
 	
+	#Upper bound for search
+	greatherthan = "1200" 
+	
+	
+	"""	
+		Uncomment following lines to test
+	"""
+	
+	#Create the index
+	#esrc.create_index(index)
+	
+	# import sample data
 	# esrc.import_sample_data(index)
-	# print("Data imported")
-	# print( esrc.search_range(index, search_term, 1300, 1200) )
 	
-	print( esrc.search_data(index, search_term, 1655) )
+	# Get the list of indices
+	# esrc.list_indices()
+	
+	# Get a particular data item (Use an appropriate value of _id. I am using auto-generate IDs - hence they are hexadecimal hash values)
+	#print ( esrc.get_data_item(index,_id) )
+	
+	# Search for pageviews between 1200-1300
+	# print( esrc.search_range(index, search_term, lessthan, greaterthan) )
+	
+	# Search for pageview with given value
+	#print( esrc.search_data(index, search_term, 1655) )
 	
