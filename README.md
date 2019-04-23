@@ -67,10 +67,10 @@ push_data    => This method will be used for pushing data to the cluser
 
 search_data  => This method will search elastic search cluster for a given term
 
-	def search_data(self, index, search_term, return_size):
+	def search_data(self, index, search_term, search_value):
 		#retrieves data for the particular search term
 		url = config['url'] + "/" + index + "/_doc/_search/?pretty=true" 
-		query = {"query" : { "match" : { search_term : return_size }}}
+		query = {"query" : { "match" : { search_term : search_value }}}
 		response = requests.get( url, auth = HTTPBasicAuth(config['username'], config['password']), data=json.dumps(query), headers = {'Content-type': 'application/json', 'Accept': 'text/plain'})
 		
 		if( response.status_code == 200):
