@@ -81,7 +81,6 @@ class elastic_search_rest_client:
 		#Searches index for a particular data item for a specified range
 		url = config['url'] + "/" + index + "/_doc/_search/?pretty=true" 
 		query = {"query" : { "range" : { search_term : { "gte" : greaterthan, "lte" : lessthan } } } }
-		# query = {"query" : { "match" : { "pageviews" : "1927" }}}
 		response = requests.get( url, auth = HTTPBasicAuth(config['username'], config['password']), data=json.dumps(query), headers = {'Content-type': 'application/json', 'Accept': 'text/plain'})
 		
 		if( response.status_code == 200):
